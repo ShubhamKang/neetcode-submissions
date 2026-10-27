@@ -1,0 +1,20 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] ans = new int[n-k+1];
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((x,y)-> Integer.compare(y[0],x[0]));
+        for(int i=0; i<k; i++){
+            maxHeap.offer(new int[]{nums[i],i});
+        }
+        ans[0] = maxHeap.peek()[0];
+        for(int i = k; i < n; i++){
+            maxHeap.offer(new int[]{nums[i],i});
+            while(maxHeap.peek()[1] < i-k+1){
+                maxHeap.poll();
+            }
+            ans[i-k+1] = maxHeap.peek()[0];
+        }
+        return ans;
+
+    }
+}
